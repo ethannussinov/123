@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "project"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+behave = "^1.2.6"
+dbt-duckdb = "^1.6.1"
+
+[tool.poetry.group.dev.dependencies]
+harlequin = "^1.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
