@@ -1,0 +1,34 @@
+version: 2
+
+sources:
+  - name: deftpy
+    database: database
+    schema: main
+    tables:
+      - name: raw_perovskite_data
+        description: "Table containing raw perovskite data used for initial staging"
+        columns:
+        - name: material_id
+          description: "Unique identifier for each perovskite material"
+        - name: poscar_data
+          description: "Contains POSCAR file data for perovskite structures"
+        - name: band_gap
+          description: "Contains the band gap energy for the perovskite material"  
+    
+      - name: transformed_perovskite_data
+        description: "Table containing transformed perovskite data model with additional indexed properties used for the model"
+        columns:
+        - name: material_id
+          description: "Unique identifier for each perovskite material"
+        - name: poscar_data
+          description: "Contains POSCAR file data for perovskite structures"
+        - name: band_gap
+          description: "Contains the band gap energy for the perovskite material"  
+        - name: bond_dissociation_enthalpies
+          description: indexed bond dissociation enthalpies for the perovskite material"
+        - name: reduction_potentials
+          description: indexed crystal reduction potentials for the perovskite material"
+
+
+models:
+  - name: stg_energy_pred_model
