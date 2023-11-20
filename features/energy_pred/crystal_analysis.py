@@ -125,29 +125,77 @@ def get_perovskite_structure(perovskite, API):
             band_gap_energy = results[0]["band_gap"]
             
             # Optionally write the POSCAR file content to a file
-            with open(f"{material_formula}_POSCAR", "w") as file:
+            with open(f"{perovskite}_POSCAR", "w") as file:
                 file.write(structure_cif)
             
-            print(f"Band gap energy for {material_formula}: {band_gap_energy} eV")
+            print(f"Band gap energy for {perovskite}: {band_gap_energy} eV")
 
-            crystal = Crystal(poscar_string=structure)
+            crystal = Crystal(poscar_string=structure_cif)
             
             crystal.eg = band_gap_energy
 
-            return crystal, band_gap_energy
+            crystal_pickle = crystal.to_pickle()
+
+            return crystal_pickle, band_gap_energy
         else:
             print(f"No results found for {perovskite}")
             return None, None
+        
 
-# Example usage:
-API_KEY = 'YOUR_API_KEY'  # Replace with your actual API key
-material_formula = 'CaTiO3'
-structure, band_gap = get_structure_and_band_gap(material_formula, API_KEY)
+def get_descriptors(structure):
+    crystal = structure.from_pickle()
+
+    CN = crystal.cn_dicts
+    Eb = crystal.bond_dissociation_enthalpies
+    Vr = crystal.reduction_potentials
+
+# Calculate CN-weighted Eb sum
+    Eb_sum = []
+    for CN_dict, Eb_dict in zip(CN, Eb):
+        CN_array = np.array(list(CN_dict.values()))
+        Eb_array = np.array(list(Eb_dict.values()))
+        Eb_sum.append(np.sum(CN_array * Eb_array))
+
+    # Calculate maximum Vr
+    Vr_max = []
+    for Vr_dict in Vr:
+        try:
+            Vr_max.append(max(Vr_dict.values()))
+        except ValueError:
+            Vr_max.append(np.nan)
+
+    # Make a dataframe
+    df_ 
+    formula = df_defectid["formula"].values
+    defectid = df_defectid["defectid"].values
+    site = df_defectid["site"].values
+    Eg = df_defectid["bandgap_eV"].values
+    Ev = df_defectid["dH_eV"].values
+    try:
+        df_cf = pd.concat(
+            [
+                df_cf,
+                pd.DataFrame(
+                    {
+                        "formula": formula,
+                        "defectid": defectid,
+                        "site": site,
+                        "Eb_sum": Eb_sum,
+                        "Vr_max": Vr_max,
+                        "Eg": Eg,
+                        "Ev": Ev,
+                    }
+                ),
+            ]
+        )
+    except ValueError:
+        pass
+df_cf = df_cf.reset_index(drop=True)
 
 
-def initialize_crystals(perovskites, API):
-    # Logic to initialize and serialize Crystal instances
-    pass
+
+    return (structure, Eb, Vr)
+
 
 def compute_properties(serialized_crystals):
     # Logic to unserialize, compute additional properties, and re-serialize

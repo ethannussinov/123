@@ -1,6 +1,4 @@
 
-
-
 #Background
 @given('an API key is provided and a the user has perovskite identifiers')
 # This function will use the perovskite name(s) to access the POSCAR structure via API connection. 
