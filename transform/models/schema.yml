@@ -24,8 +24,8 @@ sources:
           description: "Contains POSCAR file data for perovskite structures"
         - name: band_gap
           description: "Contains the band gap energy for the perovskite material"  
-        - name: bond_dissociation_energies
-          description: indexed bond dissociation energies for the perovskite material"
+        - name: bond_dissociation_enthalpies
+          description: indexed bond dissociation enthalpies for the perovskite material"
         - name: reduction_potentials
           description: indexed crystal reduction potentials for the perovskite material"
 
